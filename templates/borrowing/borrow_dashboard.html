@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-4">📚 Borrow a Book</h2>
+  <div class="row">
+    {% for book in books %}
+    <div class="col-md-4 mb-4">
+      <div class="card shadow-sm">
+        {% if book.cover_image %}
+          <img src="{{ book.cover_image.url }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+        {% endif %}
+        <div class="card-body">
+          <h5 class="card-title">{{ book.title }}</h5>
+          <p class="card-text">By {{ book.author }}</p>
+          <a href="{% url 'borrow_book' book.id %}" class="btn btn-primary w-100">Borrow</a>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <p>No books available.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>📊 Britam Library Dashboard</h2>
+
+<div class="row mt-4">
+  <div class="col-md-4">
+    <div class="card text-white bg-primary mb-3">
+      <div class="card-body">
+        <h5 class="card-title">📚 Total Books</h5>
+        <p class="card-text display-6">{{ total_books }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card text-white bg-success mb-3">
+      <div class="card-body">
+        <h5 class="card-title">👥 Total Members</h5>
+        <p class="card-text display-6">{{ total_members }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card text-white bg-info mb-3">
+      <div class="card-body">
+        <h5 class="card-title">📦 Currently Borrowed</h5>
+        <p class="card-text display-6">{{ total_borrowed }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card text-white bg-secondary mb-3">
+      <div class="card-body">
+        <h5 class="card-title">✅ Returned Books</h5>
+        <p class="card-text display-6">{{ total_returned }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card text-white bg-danger mb-3">
+      <div class="card-body">
+        <h5 class="card-title">⚠️ Overdue Books</h5>
+        <p class="card-text display-6">{{ overdue_books }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

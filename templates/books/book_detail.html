@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-4">
+  <div class="row">
+    <!-- Book Cover -->
+    <div class="col-md-4 text-center">
+      {% if book.cover_image %}
+        <img src="{{ book.cover_image.url }}" alt="Cover of {{ book.title }}" class="img-fluid rounded shadow" style="max-height: 400px;">
+      {% else %}
+        <img src="{% static 'images/default_cover.jpg' %}" alt="No Cover" class="img-fluid rounded shadow" style="max-height: 400px;">
+      {% endif %}
+    </div>
+
+    <!-- Book Details -->
+    <div class="col-md-8">
+      <h2 class="mb-3 text-primary">{{ book.title }}</h2>
+      <p><strong>👤 Author:</strong> {{ book.author }}</p>
+      <p><strong>📖 ISBN:</strong> {{ book.isbn }}</p>
+      <p><strong>📅 Year:</strong> {{ book.publication_year }}</p>
+      <p><strong>🏷️ Category:</strong> {{ book.category.name }}</p>
+      <p><strong>🏢 Publisher:</strong> {{ book.publisher|default:"Unknown" }}</p>
+      <p><strong>📄 Pages:</strong> {{ book.page_count|default:"N/A" }}</p>
+      <p><strong>📚 Available Copies:</strong> {{ book.available_copies }} / {{ book.total_copies }}</p>
+
+      {% if book.description %}
+        <hr>
+        <p><strong>📝 Description:</strong></p>
+        <p class="text-muted" style="text-align: justify;">{{ book.description }}</p>
+      {% endif %}
+
+      {% if book.preview_link %}
+        <p><a href="{{ book.preview_link }}" target="_blank" class="btn btn-sm btn-outline-info mt-2">🔗 Preview Book</a></p>
+      {% endif %}
+
+      <div class="mt-4">
+        <a href="{% url 'borrow_book' book.id %}" class="btn btn-success me-2">Borrow This Book</a>
+        <a href="{% url 'book_list' %}" class="btn btn-secondary">⬅ Back to Catalog</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

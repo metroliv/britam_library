@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+
+  <!-- 👤 Current User Overview -->
+  <div class="bg-light p-3 mb-4 rounded shadow-sm d-flex justify-content-between align-items-center">
+    <div>
+      <h4 class="mb-1">👋 Hello, {{ request.user.first_name|default:request.user.username }}!</h4>
+      <p class="mb-0">Welcome to your members dashboard.</p>
+    </div>
+    <div>
+      <a href="{% url 'profile' %}" class="btn btn-outline-primary btn-sm">My Profile</a>
+      {% if perms.members.export_members %}
+        <a href="{% url 'export_members_csv' %}" class="btn btn-outline-success btn-sm ms-2">
+          <i class="bi bi-file-earmark-arrow-down"></i> Export CSV
+        </a>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- 🔍 Search Form -->
+  <form method="get" class="row g-2 align-items-center mb-4">
+    <div class="col-sm-6 col-md-4">
+      <input type="text" name="search" value="{{ request.GET.search }}" class="form-control" placeholder="Search members by name or username">
+    </div>
+    <div class="col-auto">
+      <button class="btn btn-outline-secondary" type="submit">
+        <i class="bi bi-search"></i> Search
+      </button>
+    </div>
+    <div class="col-auto">
+      <a href="{% url 'member_dashboard' %}" class="btn btn-outline-danger">
+        <i class="bi bi-x-circle"></i> Clear
+      </a>
+    </div>
+  </form>
+
+  <!-- 👥 Members Grid -->
+  <div class="row">
+    {% for member in members %}
+      <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card shadow-sm h-100 border-0">
+          <div class="card-body d-flex align-items-start">
+            <div class="me-3">
+              {% if member.profile_image %}
+                <img src="{{ member.profile_image.url }}" class="rounded-circle border" style="width: 70px; height: 70px; object-fit: cover;" alt="{{ member.user.username }}">
+              {% else %}
+                <img src="{% static 'images/default_user.png' %}" class="rounded-circle border" style="width: 70px; height: 70px; object-fit: cover;" alt="No Image">
+              {% endif %}
+            </div>
+            <div>
+              <h5 class="card-title mb-1">{{ member.user.get_full_name|default:member.user.username }}</h5>
+              <p class="text-muted small mb-1">@{{ member.user.username }}</p>
+              <p class="small mb-1"><strong>Email:</strong> {{ member.user.email }}</p>
+              <p class="small mb-1"><strong>Phone:</strong> {{ member.phone }}</p>
+              <p class="small text-muted"><i class="bi bi-calendar3"></i> Joined {{ member.joined_at|date:"M d, Y" }}</p>
+              <div class="mt-2">
+                <a href="{% url 'member_profile_view' member.user.id %}" class="btn btn-sm btn-outline-primary">View</a>
+                {% if request.user == member.user or request.user.is_staff %}
+                  <a href="{% url 'edit_member_profile' member.user.id %}" class="btn btn-warning">Edit Profile</a>
+
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <div class="col-12">
+        <div class="alert alert-info text-center">
+          😕 No members found.
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- 📄 Pagination -->
+  {% if members.has_other_pages %}
+  <nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+      {% if members.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ members.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">&laquo;</a>
+        </li>
+      {% endif %}
+      {% for num in members.paginator.page_range %}
+        <li class="page-item {% if num == members.number %}active{% endif %}">
+          <a class="page-link" href="?page={{ num }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">{{ num }}</a>
+        </li>
+      {% endfor %}
+      {% if members.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ members.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">&raquo;</a>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
+  {% endif %}
+
+</div>
+{% endblock %}

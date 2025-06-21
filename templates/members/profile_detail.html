@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0">👤 Member Profile</h5>
+    </div>
+    <div class="card-body">
+      <h4>{{ profile.user.get_full_name|default:profile.user.username }}</h4>
+      <p><strong>Username:</strong> {{ profile.user.username }}</p>
+      <p><strong>Email:</strong> {{ profile.user.email }}</p>
+      <p><strong>Phone:</strong> {{ profile.phone }}</p>
+      <p><strong>Address:</strong> {{ profile.address }}</p>
+      <p><strong>Joined:</strong> {{ profile.joined_at|date:"F d, Y" }}</p>
+      <a href="{% url 'member_dashboard' %}" class="btn btn-secondary mt-3">← Back to Dashboard</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

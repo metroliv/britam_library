@@ -1,0 +1,203 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Britam Library Management System</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f8f9fa;
+    }
+
+    .wrapper {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 240px;
+      background: #343a40;
+      color: #fff;
+      flex-shrink: 0;
+      padding-top: 60px;
+      transition: all 0.3s;
+    }
+
+    .sidebar .nav-link {
+      color: #ccc;
+      padding: 15px 20px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      transition: 0.3s ease;
+    }
+
+    .sidebar .nav-link i {
+      font-size: 1.2rem;
+    }
+
+    .sidebar .nav-link.active,
+    .sidebar .nav-link:hover {
+      background-color: #495057;
+      color: #fff;
+    }
+
+    .content {
+      flex-grow: 1;
+      padding: 20px;
+      margin-top: 56px;
+    }
+
+    .navbar-profile img {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #fff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .dropdown-menu {
+      min-width: 200px;
+    }
+
+    footer {
+      background: #fff;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        position: fixed;
+        left: -250px;
+        top: 56px;
+        height: calc(100% - 56px);
+        z-index: 1030;
+      }
+
+      .sidebar.show {
+        left: 0;
+      }
+
+      .content {
+        margin-left: 0;
+      }
+    }
+  </style>
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <div class="container-fluid">
+    <button class="btn btn-dark d-lg-none me-2" id="sidebarToggle"><i class="bi bi-list fs-4"></i></button>
+    <a class="navbar-brand" href="/">📚 Britam Library</a>
+
+    <ul class="navbar-nav ms-auto">
+      <li class="nav-item dropdown me-3">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+          <i class="bi bi-bell-fill fs-5"></i>
+          <span class="badge bg-danger rounded-pill">3</span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><a class="dropdown-item" href="#">📦 2 books returned today</a></li>
+          <li><a class="dropdown-item" href="#">📌 New registration alert</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item text-center" href="#">View all notifications</a></li>
+        </ul>
+      </li>
+      <li class="nav-item dropdown me-3">
+        <!-- <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+          <img src="{% static 'images/user.png' %}" alt="User" class="navbar-profile me-2">
+          <span class="d-none d-sm-inline">Profile</span>
+        </a> -->
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><a class="dropdown-item" href="/members/profile/">👤 My Profile</a></li>
+          <li><a class="dropdown-item" href="#">⚙️ Settings</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item text-danger" href="{% url 'logout' %}">🚪 Logout</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Wrapper -->
+<div class="wrapper">
+  <!-- Sidebar -->
+  <nav class="sidebar d-lg-block bg-dark text-white collapse" id="sidebarMenu">
+    <ul class="nav flex-column pt-3">
+      <li class="nav-item">
+        <a class="nav-link {% if 'dashboard' in request.path %}active{% endif %}" href="/">
+          <i class="bi bi-speedometer2 me-2 text-info"></i> Dashboard
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {% if 'books' in request.path %}active{% endif %}" href="/books/">
+          <i class="bi bi-book me-2 text-success"></i> Books
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {% if 'members' in request.path %}active{% endif %}" href="/members/">
+          <i class="bi bi-people-fill me-2 text-warning"></i> Members
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {% if 'borrow/history' in request.path %}active{% endif %}" href="/borrow/history/">
+          <i class="bi bi-clock-history me-2 text-primary"></i> My Borrow History
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {% if 'borrow/all-records' in request.path %}active{% endif %}" href="/borrow/all-records/">
+          <i class="bi bi-journal-text me-2 text-secondary"></i> All Records
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {% if 'admin' in request.path %}active{% endif %}" href="/admin/">
+          <i class="bi bi-shield-lock-fill me-2 text-danger"></i> Admin Panel
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Page Content -->
+  <main class="content">
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+    {% block content %}{% endblock %}
+  </main>
+</div>
+
+<!-- Footer -->
+<footer class="text-center p-3 bg-light border-top mt-auto">
+  <small>© {{ now|date:"Y" }} Britam Library Management System. All rights reserved.</small>
+</footer>
+
+<!-- Bootstrap Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const toggleBtn = document.getElementById('sidebarToggle');
+  const sidebar = document.getElementById('sidebarMenu');
+  toggleBtn?.addEventListener('click', () => {
+    sidebar.classList.toggle('show');
+  });
+</script>
+{% block extra_scripts %}{% endblock %}
+</body>
+</html>

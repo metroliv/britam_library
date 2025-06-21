@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>My Borrowed Books</h2>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Book</th>
+      <th>Borrowed</th>
+      <th>Due</th>
+      <th>Status</th>
+      <th>Return</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for record in records %}
+    <tr>
+      <td>{{ record.book.title }}</td>
+      <td>{{ record.borrow_date }}</td>
+      <td>{{ record.due_date }}</td>
+      <td>
+        {% if record.return_date %}
+          ✅ Returned on {{ record.return_date }}
+        {% elif record.is_overdue %}
+          ⚠️ Overdue
+        {% else %}
+          📚 Borrowed
+        {% endif %}
+      </td>
+      <td>
+        {% if not record.return_date %}
+          <a href="{% url 'return_book' record.id %}" class="btn btn-sm btn-success">Return</a>
+        {% else %}
+          —
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
