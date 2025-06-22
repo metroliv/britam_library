@@ -31,9 +31,9 @@ LOGIN_URL = 'login'
 SECRET_KEY = 'django-insecure--g8)+1khxpt7i(7s)l+5sgro@k^!=j487ba6%i))4x4j5rylav'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = []
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
+ALLOWED_HOSTS = ['.onrender.com']
 
 import os
 

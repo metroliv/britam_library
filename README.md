@@ -275,7 +275,7 @@ def dashboard(request):
 ## 🧑‍💻 Author
 
 **Victor Mulinge**  
-📧 Email: victor@example.com  
+📧 Email: victor@gmail.com  
 🔗 GitHub: [github.com/metroliv](https://github.com/metroliv)
 
 ---

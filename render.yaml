@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: britam-library
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn britam_library.wsgi:application
+    envVars:
+      - key: DJANGO_SECRET_KEY
+        value: your-secret-key
+      - key: DEBUG
+        value: False
