@@ -30,7 +30,7 @@ LOGIN_URL = 'login'
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-SECRET_KEY = os.getenv('django-insecure--g8)+1khxpt7i(7s)l+5sgro@k^!=j487ba6%i))4x4j5rylav', 'unsafe-default-key-for-dev')
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'unsafe-default-key-for-dev')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
