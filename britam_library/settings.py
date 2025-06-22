@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -36,7 +37,7 @@ SECRET_KEY = os.getenv('django-insecure--g8)+1khxpt7i(7s)l+5sgro@k^!=j487ba6%i))
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = ['.onrender.com', 'https://britam-library.onrender.com']  # Add the Render domain once deployed
 
-import os
+
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
