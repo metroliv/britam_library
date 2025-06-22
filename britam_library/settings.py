@@ -28,12 +28,13 @@ LOGIN_URL = 'login'
 # }
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure--g8)+1khxpt7i(7s)l+5sgro@k^!=j487ba6%i))4x4j5rylav'
+
+SECRET_KEY = os.getenv('django-insecure--g8)+1khxpt7i(7s)l+5sgro@k^!=j487ba6%i))4x4j5rylav', 'unsafe-default-key-for-dev')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
-ALLOWED_HOSTS = ['.onrender.com']
+ALLOWED_HOSTS = ['.onrender.com', 'https://britam-library.onrender.com']  # Add the Render domain once deployed
 
 import os
 
